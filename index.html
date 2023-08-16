@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="Images/favicon.svg">
+    <link rel="stylesheet" href="main.css">
+    <title>Weather App</title>
+
+    <style>
+        .tabHighlight{
+            background-color: #1DB3E1;
+            box-shadow: 4px 4px 20px rgba(16, 16, 16, 0.566);
+        }
+
+        .yourWeatherContainer{
+            display: none;
+        }
+        .yourWeatherContainer.active{
+            display: flex;
+        }
+
+        .grantLocationContainer{
+            display: none;
+        }
+        .grantLocationContainer.active{
+            display : flex;
+        }
+
+        .searchWeatherContainer{
+            display: none;
+        }
+        .searchWeatherContainer.active{
+            display: flex;
+        }
+
+        .loadingScreen{
+            display:none;
+        }
+        .loadingScreen.active{
+            display:flex;
+        }
+    </style>
+</head>
+<body class="box-content overflow-x-hidden">
+    
+    <!-- wrapper -->
+    <div class="relative w-[100vw] h-[100vh] bg-gradient-to-tr from-blue-700 via-sky-500 to-sky-300">
+        <!-- Container-->
+        <div class="relative flex flex-col w-[47rem] mx-auto py-[10px]">
+
+            <!-- heading -->
+            <h1 class="text-[30px] font-bold tracking-wide text-[#315794] text-center mb-[2rem]">WEATHER APP</h1>
+
+            <!-- Switching Tabs -->
+            <div class="flex justify-between px-14">
+                <div yourWeatherTab class="cursor-pointer text-[18px] font-semibold py-[1px] px-[10px] rounded-md bg-opacity-10 text-white tracking-wide hover:scale-110 transition-all duration-300">Your Weather</div>
+                <div searchWeatherTab class="cursor-pointer text-[18px] font-semibold py-[1px] px-[10px] rounded-md bg-opacity-10 text-white tracking-wide hover:scale-110 transition-all duration-300">Search Weather</div>
+            </div>
+
+            <!-- main container  -->
+            <div class="flex flex-col justify-center">
+
+            <!-- location Access -->
+            <div grantLocationContainer class="grantLocationContainer flex-col gap-[2rem] mt-[4rem]">
+                <img src="Images/location.png" alt="" class="mx-auto" width="150" height="150">
+                <h1 class="text-center text-[23px] text-white font-semibold">Grant Location Access</h1>
+                <p class="text-center text-[18px] text-white font-medium">Click on Allow access to get Weather Information</p>
+                <button class="border-[2px] w-[150px] py-[4px] text-white font-semibold bg-slate-200 bg-opacity-30 text-[18px] rounded-md mx-auto hover:scale-110 hover:opacity-80 hover:border-[#38e8a2] hover:text-[#05ff44] transition-all duration-300" btnGrantAccess>Allow Access</button>
+            </div>
+
+            <!-- search container -->
+            <div searchWeatherContainer class="searchWeatherContainer mt-[2rem] flex gap-4">
+                <input placeholder="Search for City..." value="" height="100" width="100" class="block bg-[#C8DDE4] py-2 px-2 w-[600px] rounded-md text-black font-medium" searchInput>
+                <div class="w-[45px] h-[40px] cursor-pointer bg-slate-200 bg-opacity-40 rounded-full flex justify-center items-center">
+                    <i class="fa-solid fa-magnifying-glass text-white text-[20px]" searchBtn></i>
+                </div>
+            </div>
+
+            <!-- Weather container -->
+            <div yourWeatherContainer class="yourWeatherContainer flex flex-col items-center mt-6">
+                <!-- Place Name -->
+                <div class="flex gap-5 justify-center items-center">
+                    <p placeName class="text-white text-[27px] font-bold tracking-wider"></p>
+                    <img countryIcon src="" class="w-[40px] h-[30px]" alt="">
+                </div>
+
+                <!-- weather condition -->
+                <div WtrCondn class="font-semibold text-white text-[18px] mt-2"></div>
+
+                <!-- weather image  -->
+                <img src="" alt="" class="w-[70px] h-[60px]"  wtrImg>
+
+                <!-- temperature -->
+                <div tempData class="font-bold text-white text-[35px]"></div>
+
+                <!-- other info  -->
+                <div class="flex flex-wrap gap-4 justify-center items-center mt-[18px]">
+                    <!-- Max Temperature -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/highTemp.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">Max Temperature</p>
+                        <div class="font-bold text-[29px] text-white" maxTemp></div>
+                    </div>
+
+                    <!-- humidity -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/humidity.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">Humidity</p>
+                        <div class="font-bold text-[29px] text-white" humidity></div>
+                    </div>
+
+                    <!-- wind Speed and direction -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/wind.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">Wind Speed</p>
+                        <div class="font-bold text-[29px] text-white" wSpeed></div>
+                    </div>
+
+                    <!-- clouds -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/cloud.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">CLOUDS</p>
+                        <div class="font-bold text-[29px] text-white" clouds></div>
+                    </div>
+
+                    <!-- sunrise time -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/sunrise.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">SunRise Time</p>
+                        <div class="font-bold text-[29px] text-white" sunRise></div>
+                    </div>
+
+                    <!-- sunset time -->
+                    <div class="py-2 px-3 flex flex-col gap-[5px] justify-center items-center min-w-[200px] h-[150px] cursor-pointer bg-slate-300 bg-opacity-40 shadow-lg shadow-slate-600 rounded-md hover:scale-110 transition-all duration-300">
+                        <img src="Images/sunset.png" class="w-[40px] h-[40px]" alt="">
+                        <p class="font-medium text-white text-[20px] text-center">Sunset Time</p>
+                        <div class="font-bold text-[29px] text-white" sunSet></div>
+                    </div>
+                </div>
+
+            </div>
+         
+            <!-- loading screen -->
+            <div loadingScreen class="loadingScreen absolute top-[45vh] left-[20vw] flex flex-col">
+                <img src="Images/loading.gif" alt="" class="w-[180px] h-[180px]">
+                <p class="text-center font-semibold text-white text-[26px]">Please Wait...</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="https://kit.fontawesome.com/c19d6e6d44.js" crossorigin="anonymous"></script>
+</body>
+</html>
